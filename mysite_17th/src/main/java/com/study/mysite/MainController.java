@@ -11,4 +11,11 @@ public class MainController {
 	public void Index() {
 		System.out.println("킴쌤 클래스에 오신 것을 환영합니다!");
 	}
+	
+	@GetMapping("/")
+	public String root() {
+		//return "redirect:/question/list";
+		return "index";
+	}
+
 }
