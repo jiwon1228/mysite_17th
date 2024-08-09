@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class QuestionController {
 	
-	private final QuestionRepository questionRepository;
+	//private final QuestionRepository questionRepository;
 	private final QuestionService questionService;
 	
 	
