@@ -32,8 +32,8 @@ class Mysite17thApplicationTests {
 	@Transactional
 	@Test
 	void testJpa(){
-		/*
-		Question q1 = new Question();
+		
+		/*Question q1 = new Question();
 		q1.setSubject("JPA가 무엇인가요?");
 		q1.setContent("알고 싶어요");
 		q1.setCreateDate(LocalDateTime.now());
@@ -50,8 +50,8 @@ class Mysite17thApplicationTests {
 		q3.setContent("궁금합니다");
 		q3.setCreateDate(LocalDateTime.now());
 		this.questionRepository.save(q3); //두번째 질문 저장
-		*/
-		/*
+		
+		
 		List<Question> all = this.questionRepository.findAll();
 		assertEquals(3, all.size());
 		
@@ -62,6 +62,7 @@ class Mysite17thApplicationTests {
 		
 		Question q = this.questionRepository.findBySubjectAndContent("ORM이 무엇인가요?","궁금합니다");
 		assertEquals(3, q.getId());
+		
 		
 		//데이터찾기
 		List<Question> qList = this.questionRepository.findBySubjectLike("%무엇%");
@@ -81,12 +82,12 @@ class Mysite17thApplicationTests {
 		assertTrue(oq.isPresent()); //해당하는 객체가 있으면 트루를 반환
 		Question q=oq.get();
 		this.questionRepository.delete(q);
-		assertEquals(3,this.questionRepository.count());
+		assertEquals(3,this.questionRepository.count());*/
 		
 		//-----------------------------------------------
 		 
-		//answer 질문에 대답하기
-		Optional<Question> oq =this.questionRepository.findById(3);
+		//answer 질문에 대답하기 저장하기
+		Optional<Question> oq =this.questionRepository.findById(5);
 		assertTrue(oq.isPresent());
 		Question q =oq.get();
 		
@@ -94,11 +95,11 @@ class Mysite17thApplicationTests {
 		a.setContent("Object-Relational Mapping의 약자");
 		a.setQuestion(q); //어떤 질문에 답변인지 설정해야하기때문에 question이란 객체가 필요함
 		a.setCreateDate(LocalDateTime.now());
-		this.answerRepository.save(a);*/
+		this.answerRepository.save(a);
 		
-		
+		/*
 		//답변 데이터를 통해서 
-		Optional<Question> oq =this.questionRepository.findById(3);
+		Optional<Question> oq =this.questionRepository.findById(5);
 		assertTrue(oq.isPresent());
 		Question q =oq.get();
 		
@@ -108,6 +109,8 @@ class Mysite17thApplicationTests {
 		//테스트 코드 시 이런 오류를 방지할 수 있는 가장 간단한 방법으로 @Transactionnal애너테이션을 사용하여 DB세션이 끊기지않고 계속 유지가 되어 해결
 		assertEquals(1, answerList.size());
 		assertEquals("Object-Relational Mapping의 약자", answerList.get(0).getContent());
+		*/
+	}
 	}
 
-}
+

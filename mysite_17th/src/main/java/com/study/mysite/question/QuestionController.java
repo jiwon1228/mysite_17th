@@ -4,11 +4,17 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.study.mysite.answer.AnswerForm;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/question")//들어오는 요청은 /question로 시작한다
@@ -34,11 +40,32 @@ public class QuestionController {
 	
 	//상세페이지 이동
 	@GetMapping(value="/detail/{userid}")
-	public String detail(Model model, @PathVariable("userid") Integer id) { 
+	public String detail(Model model, @PathVariable("userid") Integer id, AnswerForm answerForm) { 
 		//Integer type의 id 컬럼값과 연결하여 @PathVariable("변수명")으로 변경한다. 
 		//=> 사용자 요청 url이 변수명으로 사용가능하다 
 		Question question = this.questionService.getQuestion(id);
 		model.addAttribute("question",question);
 		return "question_detail";
+	}
+	
+	//질문 등록 페이지로 이동
+	@GetMapping("/create")
+	public String questionCreate(QuestionForm questionForm) {
+		return "question_form"; //파일로 이동하게됨
+	}
+	
+//	public String questionCreate(@RequestParam(value="subject") String subject,@RequestParam(value="content") String content) { //매개방식을 다르게 줄거라서 같은 메소드 이름을 줄 수 있음
+//		this.questionService.create(subject, content);
+//		return	"redirect:/question/list";
+//	}
+	//질문 등록 페이지로 이동
+	@PostMapping("/create")
+	public String questionCreate(@Valid QuestionForm questionForm,BindingResult bindingResult) { //매개방식을 다르게 줄거라서 같은 메소드 이름을 줄 수 있음
+		if(bindingResult.hasErrors()) {
+			return "question_form";
+		}
+		this.questionService.create(questionForm.getSubject(),questionForm.getContent());
+		return	"redirect:/question/list";
+		
 	}
 }

@@ -1,28 +1,29 @@
-<!doctype html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8" />
-	<title>question_list</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-</head>
-<body>
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
 	<div class="container">
-		<div class="jumbotron "><h2 class="display-4">게시판 목록</h2></div>
-			<table class="table table-striped">
-				<thead class="table-warning ">
-					<tr>
-						<th>제목</th>
-						<th>작성일시</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="question:${questionList}">
-						<td><a class="text-warning" th:text="${question.subject}" th:href="@{|/question/detail/${question.id}|}"></a></td>
-						<td th:text="${question.createDate}"></tdth>
-					</tr>
-				</tbody>
-				
-			</table>
+		<div class="jumbotron ">
+			<h2 class="display-4">게시판 목록</h2>
+		</div>
+		<table class="table table-striped">
+			<thead class="table-warning ">
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성일시</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="question,loop :${questionList}">
+					<td th:text="${loop.count}"></td>
+					<td><a class="text-warning" th:text="${question.subject}"
+						th:href="@{|/question/detail/${question.id}|}"></a></td>
+					<td
+						th:text="${#temporals.format(question.createDate,'yyyy년 MM월 dd일 HH시 mm분')}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<!-- 질문등록버튼 -->
+		<a th:href="@{/question/create}" class="btn btn-warning text-white">질문 등록하기</a>
 	</div>
-</body>
+</div>
 </html>
