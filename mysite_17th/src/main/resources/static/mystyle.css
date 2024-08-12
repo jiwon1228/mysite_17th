@@ -1,1 +1,14 @@
 /*mystyle.css*/
+.page-item.active .page-link {
+	background-color: orange;
+	border-color: orange;
+}
+
+.page-link {
+	color: orange;
+}
+
+.page-link:hover {
+	color: orange;
+	background-color: gray;
+}
