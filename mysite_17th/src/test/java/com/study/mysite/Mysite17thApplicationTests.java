@@ -15,6 +15,7 @@ import com.study.mysite.answer.Answer;
 import com.study.mysite.answer.AnswerRepository;
 import com.study.mysite.question.Question;
 import com.study.mysite.question.QuestionRepository;
+import com.study.mysite.question.QuestionService;
 
 import jakarta.transaction.Transactional;
 
@@ -27,9 +28,12 @@ class Mysite17thApplicationTests {
 	//실제코드에서는 setter나 생성자 주입방식을 사용하는것을 권장한다. 
 	
 	@Autowired
+	private QuestionService questionService;
+	
+	@Autowired
 	private AnswerRepository answerRepository;
 	
-	@Transactional
+	//@Transactional
 	@Test
 	void testJpa(){
 		
@@ -85,7 +89,7 @@ class Mysite17thApplicationTests {
 		assertEquals(3,this.questionRepository.count());*/
 		
 		//-----------------------------------------------
-		 
+		/* 
 		//answer 질문에 대답하기 저장하기
 		Optional<Question> oq =this.questionRepository.findById(5);
 		assertTrue(oq.isPresent());
@@ -97,7 +101,7 @@ class Mysite17thApplicationTests {
 		a.setCreateDate(LocalDateTime.now());
 		this.answerRepository.save(a);
 		
-		/*
+		
 		//답변 데이터를 통해서 
 		Optional<Question> oq =this.questionRepository.findById(5);
 		assertTrue(oq.isPresent());
@@ -110,7 +114,14 @@ class Mysite17thApplicationTests {
 		assertEquals(1, answerList.size());
 		assertEquals("Object-Relational Mapping의 약자", answerList.get(0).getContent());
 		*/
+		
+		for(int i=1; i<=100; i++){
+			String subject = String.format("테스트 코드를 이용하여 생성한 제목 : [%03d]", i);
+			String content= String.format("테스트 코드를 이용하여 생성한 내용 : [%03d]", i);
+			this.questionService.create(subject, content);
+		}
+		
 	}
-	}
+}
 
 
