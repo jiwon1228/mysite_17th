@@ -8,15 +8,21 @@
 "id" : 2,
 "name" : "박 명수",
 "age" : 48
+  "personalColor":"hotpink",
+	"hobbies": ["travel"]
 },
 {
 "id" : 3,
 "name" : "하하",
 "age" : 40
+  	"personalColor":"pink",
+	"hobbies": ["game", "soccer"]
 },
 {
 "id" : 4,
 "name" : "정형돈",
 "age" : 44
+  	"personalColor":"purple",
+	"hobbies": ["watchingMovie", "playingthePiano"]
 }
 ]
