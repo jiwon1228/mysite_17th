@@ -34,4 +34,6 @@ public class Answer {
 	private SiteUser author;
 	//글쓴이의 아이디값
 	
+	private LocalDateTime modifyDate;//질문 수정 일시
+	
 }

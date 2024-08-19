@@ -16,15 +16,14 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 	
-	public SiteUser create(String username,String email, String password) {
-		SiteUser user= new SiteUser();
+	public SiteUser create(String username, String email, String password) {
+		SiteUser user = new SiteUser();
 		user.setUsername(username);
 		user.setEmail(email);
-		//db에 저장된 비밀번호를 암호화시켜서 저장 (관리자도 비밀번호를 모르도록)
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		user.setPassword(passwordEncoder.encode(password));
+//		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		//user.setPassword(passwordEncoder.encode(password));
+		user.setPassword(password);
 		this.userRepository.save(user);
-		
 		return user;
 	}
 	

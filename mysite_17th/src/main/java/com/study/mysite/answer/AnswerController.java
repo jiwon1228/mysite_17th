@@ -1,7 +1,9 @@
 package com.study.mysite.answer;
 
 import java.security.Principal;
+import java.text.Format;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.study.mysite.question.Question;
 import com.study.mysite.question.QuestionService;
@@ -18,6 +21,8 @@ import com.study.mysite.user.UserService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RequestMapping("/answer")
 @RequiredArgsConstructor
@@ -45,4 +50,47 @@ public class AnswerController {
 		return String.format("redirect:/question/detail/%s", id);
 
 	}
+
+	public String getMethodName(@RequestParam String param) {
+		return new String();
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/modify/{id}")
+	public String answerModify(AnswerForm answerForm,@PathVariable("id") Integer id, Principal principal) {
+		Answer answer = this.answerService.getAnswer(id);
+		if(!answer.getAuthor().getUsername().equals(principal.getName())){	
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정 권한이 없습니다.");
+		}
+		answerForm.setContent(answer.getContent());
+		return "answer_form";
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping("/modify/{id}")
+	public String answerModify(@Valid AnswerForm answerForm,BindingResult bindingResult,@PathVariable("id") Integer id, Principal principal) {
+		if(bindingResult.hasErrors()) {
+			return "answer_form";
+		}
+		
+		Answer answer = this.answerService.getAnswer(id);
+		if(!answer.getAuthor().getUsername().equals(principal.getName())){	
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정 권한이 없습니다.");
+		}
+		this.answerService.modify(answer, answerForm.getContent());
+		
+		return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+		//답변 수정 완료 후 질문 상세 페이지로 리다이렉트
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete/{id}")
+    public String answerDelete(@PathVariable("id") Integer id, Principal principal) {
+        Answer answer = this.answerService.getAnswer(id);
+        if (!answer.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        this.answerService.delete(answer);
+        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+    }
 }

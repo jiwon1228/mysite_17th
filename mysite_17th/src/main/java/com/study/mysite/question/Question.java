@@ -40,4 +40,7 @@ public class Question {
 	@ManyToOne
 	private SiteUser author;
 	//유저가 질문을 여러개 할 수 있으므로 다대일 관계가 된다.
-}
+	
+	private LocalDateTime modifyDate;//질문 수정 일시
+
+	}
