@@ -3,6 +3,7 @@ package com.study.mysite.answer;
 import java.time.LocalDateTime;
 
 import com.study.mysite.question.Question;
+import com.study.mysite.user.SiteUser;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,7 +28,10 @@ public class Answer {
 	private LocalDateTime createDate;
 	
 	@ManyToOne //하나의 질문에 여러가지 답변을 할 수 있다.
-	private Question question; //외래키 Answer:자식N Question:부모1 
+	private Question question; //외래키(FK) Answer:자식N Question:부모1 
 	
+	@ManyToOne
+	private SiteUser author;
+	//글쓴이의 아이디값
 	
 }

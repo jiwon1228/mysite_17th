@@ -13,7 +13,8 @@
 					<span class="small">질문 내용 : </span>[[${question.content}]] <span
 						class="badge badge-pill badge-secondary float-right"
 						th:text="${#temporals.format(question.createDate,'yyyy-MM-dd HH-mm')}"></span>
-				</h5>
+							<span class="badge badge-pill badge-success float-right mr-2" th:if="${question.author!=null}">[[${question.author.username}]]</span>
+				</h5> 
 			</div>
 		</div>
 
@@ -30,6 +31,7 @@
 						<li>[[${answer.content}]]</li>
 						<!--날짜를 출력하는 배찌  -->
 						<div class="d-flex justify-content-end">
+						<span class="badge badge-pill badge-success mr-2" th:if="${question.author!=null}">[[${question.author.username}]]</span>
 							<span class="badge badge-pill badge-secondary"
 								th:text="${#temporals.format(question.createDate,'yyyy-MM-dd HH-mm')}"></span>
 						</div>
@@ -45,9 +47,11 @@
 	
 			<div class="form-group">
 			<!-- 답변 기능의 content 항목도 th:field 속성을 사용하겠다는 의미로 th:field*{content}를 넣는다. -->
-		
-				<textarea th:field="*{content}" class="form-control" name="content" id="content" cols="30"
-					rows="10"></textarea>
+			<!-- isAnonymous() 로그인이 안된 상태 isAuthenticated() 로그인이 된 상태 -->
+				<textarea sec:authorize="isAnonymous()" th:field="*{content}" class="form-control" name="content" id="content" cols="30"
+					rows="10" disabled placeholder="로그인 한 상태에서 답변 작성 가능합니다."></textarea>
+				<textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control" name="content" id="content" cols="30"
+					rows="10" ></textarea>
 			</div>
 			<input class="btn btn-warning p-2" type="submit" value="답변 등록하기" />
 		</form>

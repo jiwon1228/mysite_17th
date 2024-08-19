@@ -1,8 +1,10 @@
 package com.study.mysite.question;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.study.mysite.answer.AnswerForm;
+import com.study.mysite.user.SiteUser;
+import com.study.mysite.user.UserService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +29,7 @@ public class QuestionController {
 	
 	//private final QuestionRepository questionRepository;
 	private final QuestionService questionService;
+	private final UserService userService;
 	
 	
 	//게시판 리스트로 이동
@@ -53,6 +58,7 @@ public class QuestionController {
 	}
 	
 	//질문 등록 페이지로 이동
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/create")
 	public String questionCreate(QuestionForm questionForm) {
 		return "question_form"; //파일로 이동하게됨
@@ -62,13 +68,18 @@ public class QuestionController {
 //		this.questionService.create(subject, content);
 //		return	"redirect:/question/list";
 //	}
-	//질문 등록 페이지로 이동
+	
+	
+	@PreAuthorize("isAuthenticated()")
+	//isAuthenticated() : 인증 / 사용자가 누구인지를 확인 하는 것
+	//Authorize : 인가 / 인증된 사용자가 특정 자원에 접근할 권한이 있는지 확인
 	@PostMapping("/create")
-	public String questionCreate(@Valid QuestionForm questionForm,BindingResult bindingResult) { //매개방식을 다르게 줄거라서 같은 메소드 이름을 줄 수 있음
+	public String questionCreate(@Valid QuestionForm questionForm,BindingResult bindingResult,Principal principal) { //매개방식을 다르게 줄거라서 같은 메소드 이름을 줄 수 있음
 		if(bindingResult.hasErrors()) {
 			return "question_form";
 		}
-		this.questionService.create(questionForm.getSubject(),questionForm.getContent());
+		SiteUser siteUser=this.userService.getUser(principal.getName());
+		this.questionService.create(questionForm.getSubject(),questionForm.getContent(),siteUser);
 		return	"redirect:/question/list";
 		
 	}
