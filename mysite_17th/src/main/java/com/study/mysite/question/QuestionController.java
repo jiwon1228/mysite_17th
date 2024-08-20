@@ -131,4 +131,16 @@ public class QuestionController {
 		return "redirect:/";
 	}
 	
+	//좋아요 클릭 시 
+		@PreAuthorize("isAuthenticated()")
+		@GetMapping("/vote/{id}")
+		public String questionVote(Principal principal, @PathVariable("id") Integer id) {
+			Question question = this.questionService.getQuestion(id);
+			SiteUser siteUser = this.userService.getUser(principal.getName());
+			
+			this.questionService.vote(question, siteUser);//question, siteUser을 저장하겠다.
+			
+			return String.format("redirect:/question/detail/%s", id);
+		}
+	
 }

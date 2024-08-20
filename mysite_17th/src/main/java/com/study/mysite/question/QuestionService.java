@@ -64,5 +64,9 @@ public class QuestionService {
 	public void delete(Question question) {
 		this.questionRepository.delete(question);
 	}
+	public void vote(Question question,SiteUser siteUser) {
+		question.getVoter().add(siteUser);//질문 추천한 사람을 가져오기
+		this.questionRepository.save(question);
+	}
 	
 }

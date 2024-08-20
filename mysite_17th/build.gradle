@@ -41,6 +41,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	// https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity6
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	// https://mvnrepository.com/artifact/org.commonmark/commonmark
+	implementation 'org.commonmark:commonmark:0.21.0'
 	
 	
 	
