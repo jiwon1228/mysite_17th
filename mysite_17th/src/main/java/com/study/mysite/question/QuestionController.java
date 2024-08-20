@@ -38,13 +38,15 @@ public class QuestionController {
 	//게시판 리스트로 이동
 	//localhost:8080/question/list 이 요청이 오면 게시판 목록 페이지가 떠야 한다.
 	@GetMapping("/list")
-	public String list(Model model,@RequestParam(value="page",defaultValue="0") int page) {
+	public String list(Model model,@RequestParam(value="page",defaultValue="0") int page, @RequestParam(value="kw",defaultValue="") String kw) {
 		//List<Question> questionList = this.questionRepository.findAll();
 		//.List<Question> questionList=this.questionService.getList(); //결과는 같으나 서비스를 이용해 유지보수가 편하게 수정
 		
-		Page<Question> paging = this.questionService.getList(page);
+		Page<Question> paging = this.questionService.getList(page,kw);
 		//model.addAttribute("questionList",questionList);
 		model.addAttribute("paging",paging);
+		model.addAttribute("kw",kw);
+		
 		
 		return "question_list";
 		//자바 코드를 삽입할 수 있는 html 형식의 파일인 템플릿이 필요=>타임 리프 Thymeleaf 사용예쩡

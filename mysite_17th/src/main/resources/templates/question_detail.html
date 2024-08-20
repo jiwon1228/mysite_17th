@@ -9,7 +9,9 @@
 
 		<div class="card bg-warning">
 			<div class="card-body ">
-				<h5 class="card-title text-white"><span class="small">질문내용  : </span>[[${question.content}]]
+				<h5 class="card-title text-white"><span class="small">질문내용  : </span><!-- [[${question.content}]] -->
+							<!-- 마크다운 사용가능 로직 : 이 문법은 화면에 이스케이프 처리(unescaped)를 하지않고 출력을 해준다.-->
+							 <div th:utext="${@commonUtil.markdown(question.content)}"></div>
 							
 							<!-- 등록날짜 -->
 							<span class="badge badge-pill badge-secondary float-right" th:text="${#temporals.format(question.createDate, '등록날짜 yyyy-MM-dd HH:mm')}"></span>
