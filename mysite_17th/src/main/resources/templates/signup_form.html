@@ -7,7 +7,7 @@
 	</div>
 	<!--jumbotron  -->
 
-	<form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post">
+	<form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post" enctype="multipart/form-data">
 		<div th:replace="~{form_errors :: formErrorsFragment}"></div>
 		<div class="form-group">
 			<label for="userId">사용자 ID</label><input
@@ -27,14 +27,21 @@
 				type="password" class="form-control" id="exampleInputPassword2" th:field="*{password2}">
 				<small id="password2"
 				class="form-text text-muted">사용자 비밀번호 확인을 꼭 입력하셔야 합니다.</small>
-		</div>
+			</div>
 		
 			<div class="form-group">
 			<label for="exampleInputEmail1">이메일</label> <input
 				type="email" class="form-control" id="exampleInputEmail1" th:field="*{email}"
 				aria-describedby="emailHelp"> <small id="emailHelp"
 				class="form-text text-muted">이메일 양식에 맞춰서 입력해주세요.</small>
-		</div>
+			</div>
+		
+		<div class="form-group">
+		    <label for="imageFile">사용자 프로필 등록(옵션)</label>
+		    <input type="file" class="form-control" id="imageFile" name="imageFile">
+		    <small id="filelHelp" class="form-text text-muted">사용자 프로필을 등록해주세요.</small>
+		  </div>
+
 		<button type="submit" class="btn btn-warning text-white">회원가입</button>
 	</form>
 </div>

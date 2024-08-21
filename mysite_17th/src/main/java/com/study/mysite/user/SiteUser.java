@@ -24,4 +24,6 @@ public class SiteUser {
 
     @Column(unique = true)
     private String email;
+    
+    private String imageUrl;//이미지 업로드 위치
 }
