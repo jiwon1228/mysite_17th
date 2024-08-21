@@ -9,8 +9,8 @@
 				<!-- 질문등록 버튼 -->
 				<a th:href="@{/question/create}" class="ml-3 mb-3 btn btn-warning text-white">질문 등록하기</a>
 				<div class="col float-right d-flex justify-content-end mb-3">
-					 <input id="search_kw" class="form-control mr-sm-2 col-4" type="search" placeholder="Search" aria-label="Search" th:value="${kw}">
-	      <button class="btn btn-outline-success my-2 my-sm-0 mr-3" type="submit" id="btn_search">검색</button>
+					 					 	<input id="search_kw" class="form-control mr-sm-2 col-4" type="search" placeholder="Search" aria-label="Search" th:value="${kw}">
+	      				<button class="btn btn-outline-success my-2 my-sm-0 mr-3" type="submit" id="btn_search">검색</button>
 				</div>
 			</div>
 		
@@ -65,7 +65,7 @@
 				  th:if="${page >= paging.number-2 and page <= paging.number+2}"
 				    th:classappend="${page == paging.number}? 'active'"
 				    class="page-item">
-			    		<a th:date-page="${page}" class="page-link" href="javascript:void(0)" th:text="${page}"></a>
+			    		<a th:data-page="${page}" class="page-link" href="javascript:void(0)" th:text="${page}"></a>
 			    </li>
 			    <!--th:each:"page:${#numbers,sequence(시작 번호,끝번호)를 넣으면 정해진 범위만큼 반복을 만들어내는 타임리프 기능이다.}
 					#시작하는 문법 :SPEL총합표현언어의 타임리프 객체에 접근할 때 사용하는 타임리프 문법이다 예)
@@ -84,9 +84,28 @@
 			</nav>
 		
 			<form th:action="@{/question/list}" method="get" id="searchForm">
-				<input type="hidden" id="kw" th:value="${kw}">
-				<input type="hidden" id="page" th:value="${paging.number}"/>
+				<input type="text" id="kw" th:value="${kw}" name="kw">
+				<input type="text" id="page" th:value="${paging.number}" name="page"/>
 			</form>
 	</div>
 </div>
+<!-- /*layout:fragment="script" 다른페이지에서도 이 코드를 재활용하겠다 하면 넣기*/ -->
+	<script layout:fragment="script">
+		const page_elements = document.getElementsByClassName("page-link");
+		Array.from(page_elements).forEach(function(element){
+			element.addEventListener("click",function(){
+				document.getElementById("page").value=this.dataset.page;
+				document.getElementById("searchForm").submit();
+			})
+		})
+
+		const btn_search = document.getElementById("btn_search");
+		btn_search.addEventListener("click",function(){
+			document.getElementById("kw").value= document.getElementById("search_kw").value;
+			document.getElementById("page").value=0;
+			//검색버튼 클릭시 페이징의 0부터 보여주기
+			document.getElementById("searchForm").submit();
+		})
+	</script>
+
 </html>
