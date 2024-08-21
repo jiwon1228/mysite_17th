@@ -51,8 +51,10 @@ public class QuestionService {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate")); // 최신순으로 정렬
         Pageable pageable = PageRequest.of(page, 5, Sort.by(sorts));
-		Specification<Question> spec = search(kw);
-		return this.questionRepository.findAll(spec, pageable);
+		//Specification<Question> spec = search(kw);
+        
+		//return this.questionRepository.findAll(spec, pageable);
+        return this.questionRepository.findAllByKeyword(kw, pageable);
     }
 
     public void modify(Question question, String subject, String content) {
