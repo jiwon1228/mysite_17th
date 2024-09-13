@@ -1,0 +1,41 @@
+<!-- 네브바 -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-warning mb-4 p-5" th:fragment="navBarFragment">
+  <a class="navbar-brand" th:href="@{/}">
+  <span class="sr-only">메인페이지</span>
+  <img width="30" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Spring_Boot.svg/512px-Spring_Boot.svg.png?20230616230349" alt="" /><span class="text-success text-uppercase"> Spring Boot</span>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link text-white" th:href="@{/question/list}">게시판<span class="sr-only">(current)</span></a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link text-white" th:href="@{/boxoffice}">쉬어가기</a>
+      </li>
+      
+      
+      <li class="nav-item" sec:authorize="isAnonymous()">
+      <!-- isAnonymous() : 익명의 / 로그인이 안 되어 있을 때 로그인이 보이게 설정 둘 다 시큐리티에 있는 기능임
+      					   리턴 받은 값이 참이면 로그인 하지 않은 상태이므로 로그인 메뉴가 보임-->
+        <a class="nav-link text-white" th:href="@{/user/login}">로그인</a>
+      </li>
+      
+
+   <li class="nav-item " sec:authorize="isAuthenticated()">
+   <!-- 사용자 프로필 & 로그아웃 -->
+   <img th:src="@{${profileImage} != null ? ${profileImage} : '/img/user/default-profile.png'}" alt="프로필이미지" width="60" class="rounded-circle"/>
+        <a class="nav-link text-white float-left" th:href="@{/user/logout}">
+        	<!-- 사용자 프로필 --> 로그아웃
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" th:href="@{/user/signup}">회원가입</a>
+      </li>
+    </ul>
+  </div>
+</nav>
